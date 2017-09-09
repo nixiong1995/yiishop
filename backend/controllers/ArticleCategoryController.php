@@ -14,7 +14,7 @@ class ArticleCategoryController extends \yii\web\Controller
         $query=ArticleCategory::find();
         //实现分页类
         $pager=new Pagination([
-            'totalCount'=>$query->where(['status'=>1])->count(),//总条数
+            'totalCount'=>$query->where(['>','status',-1])->count(),//总条数
             'defaultPageSize'=>5//每页显示条数
         ]);
         //分页查询
@@ -73,13 +73,16 @@ class ArticleCategoryController extends \yii\web\Controller
     }
 
     //删除文章
-    public function actionDel($id){
+    public function actionDel(){
+        $id=\Yii::$app->request->post('id');
         //根据id查找数据并修改status状态值
         $brand=ArticleCategory::find()->where(['id'=>$id])->one();
-         $brand->status=-1;
-         $brand->save(false);
-        //跳转
-        return $this->redirect(['article-category/index']);
+        if($brand){
+            $brand->status=-1;
+            $brand->save(false);
+            return 'success';
+        }
+        return 'fail';
     }
 
     //验证码

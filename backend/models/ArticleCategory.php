@@ -45,8 +45,8 @@ class ArticleCategory extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => '文章名称',
-            'intro' => '文章简介',
+            'name' => '文章分类名称',
+            'intro' => '文章分类简介',
             'sort' => '排序',
             'status' => '状态',
             'code'=>'验证码'
