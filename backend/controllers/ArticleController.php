@@ -37,6 +37,7 @@ class ArticleController extends Controller
                 $model2->article_id=$model1->id;
                 $model2->save();
                 //跳转
+                \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['article/index']);
             }
         }
@@ -63,6 +64,7 @@ class ArticleController extends Controller
                 $model1->save();
                 $model2->save();
                 //跳转
+                \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['article/index']);
             }
         }
@@ -85,5 +87,20 @@ class ArticleController extends Controller
             return 'success';
         }
         return 'fail';
+    }
+
+    //UEditor插件
+    public function actions()
+    {
+        return [
+            'upload' => [
+                'class' => 'kucha\ueditor\UEditorAction',
+            ],
+            'config' => [
+                "imageUrlPrefix"  => "http://www.baidu.com",//图片访问路径前缀
+                "imagePathFormat" => "/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}" ,//上传保存路径
+                "imageRoot" => \Yii::getAlias("@webroot"),
+            ]
+        ];
     }
 }

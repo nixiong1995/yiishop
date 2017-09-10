@@ -11,5 +11,12 @@ class ArticleDetail extends ActiveRecord
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+          'content'=>'文章内容'
+        ];
+    }
+
 
 }
