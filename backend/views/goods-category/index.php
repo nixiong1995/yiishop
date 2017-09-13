@@ -11,7 +11,7 @@
         <?php foreach ($models as $model):?>
             <tr data-id="<?=$model->id?>">
                 <td><?=$model->id;?></td>
-                <td><?=$model->name;?></td>
+                <td><?=str_repeat('--',$model->depth)?><?=$model->name;?></td>
                 <td><?=$model->intro;?></td>
                 <td>
                     <a href="<?=\yii\helpers\Url::to(['goods-category/edit','id'=>$model->id])?>"><span class="glyphicon glyphicon-pencil btn btn-default btn-sm"></a>
