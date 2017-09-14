@@ -13,18 +13,30 @@ class GoodsController extends Controller
 {
     //查询所有数据,完成分页
     public function actionIndex(){
-        /*$name=\Yii::$app->request->get('name');
+        $name=\Yii::$app->request->get('name');
         $sn=\Yii::$app->request->get('sn');
         $price_begin=\Yii::$app->request->get('price_begin');
-        $price_end=\Yii::$app->request->get('price_end');*/
-         $query=Goods::find();
+        $price_end=\Yii::$app->request->get('price_end');
+         $query=Goods::find()->where(['status'=>1]);
+         if($name){
+             $query->andWhere(['like','name',$name]);
+         }elseif ($sn){
+             $query->andWhere(['like','sn',$sn]);
+         }elseif ($price_begin){
+             $query->andWhere(['>=','shop_price',$price_begin]);
+         }elseif ($price_end){
+             $query->andWhere(['<=','shop_price',$price_end]);
+         }else{
+             $query->all();
+         }
+
           //实例化分页类
           $pager=new Pagination([
-              'totalCount'=>$query->where(['status'=>1])->count(),//总条数
+              'totalCount'=>$query->count(),//总条数
               'defaultPageSize'=>5,//每页显示条数
           ]);
-          //分页查询
-          $models=$query->limit($pager->limit)->offset($pager->offset)->all();
+          //
+        $models=$query->limit($pager->limit)->offset($pager->offset)->all();
           //调用视图展示数据
           return $this->render('index',['models'=>$models,'pager'=>$pager]);
     }

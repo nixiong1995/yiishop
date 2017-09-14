@@ -39,13 +39,12 @@ EOF
             console.log(data.msg);
         } else {
             console.log(data.fileUrl);
-            //图片回显
-            $("#img").attr("src",data.fileUrl);
             //上传文件后将路径保存到数据库
             var id={$id};
             $.post("$url_Add",{id:id,path:data.fileUrl},function(data){
                     if(data=="success"){
                         console.debug('路径保存数据库成功');
+                        location.reload();
                     }else{
                         console.debug('路径保存数据库失败');
                     } 

@@ -35,7 +35,7 @@
         </tr>
     <?php endforeach;?>
 </table>
-<div class="text-muted">合计<?=$pager->totalCount?>条</div>
+
 <?php
 echo \yii\widgets\LinkPager::widget([
     'pagination'=>$pager,
