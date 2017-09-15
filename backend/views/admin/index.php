@@ -13,7 +13,7 @@
     <tr data-id="<?=$model->id?>">
         <td><?=$model->username?></td>
         <td><?=$model->email?></td>
-        <td><?=$model->status?'在职':'离职'?></td>
+        <td><?=$model->status?'正常':'禁用'?></td>
         <td><?=date("Ymd",$model->created_at)?></td>
         <td>
             <a href="<?=\yii\helpers\Url::to(['admin/edit','id'=>$model->id])?>"><span class="glyphicon glyphicon-pencil btn btn-default btn-sm"></a>

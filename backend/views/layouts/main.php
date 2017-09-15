@@ -37,6 +37,8 @@ AppAsset::register($this);
     ]);
     $menuItems = [
         ['label' => 'Home', 'url' => ['/site/index']],
+        ['label'=>'修改密码','url'=>['/modify-password/index']],
+        ['label'=>'退出登录','url'=>['/admin/logout']],
     ];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];

@@ -4,6 +4,7 @@ use backend\models\Admin;
 use backend\models\LoginForm;
 use yii\data\Pagination;
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 class AdminController extends Controller
 {
@@ -18,17 +19,20 @@ class AdminController extends Controller
         //分页查询
         $models=$query->limit($pager->limit)->offset($pager->offset)->all();
         return $this->render('index',['models'=>$models,'pager'=>$pager]);
+        //var_dump(\Yii::$app->user->identity);
     }
 
     //添加管理员
     public function actionAdd(){
         $model=new Admin();
+        $model->scenario=Admin::SCENARIO_Add;//指定当前场景为SCENARIO_Add
         $request=\Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
             if($model->validate()){
-                $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password_hash);
+                /*$model->password_hash=\Yii::$app->security->generatePasswordHash($model->password);
                 $model->created_at=time();
+                $model->auth_key=\Yii::$app->security->generateRandomString();*/
                 $model->save();
                 \Yii::$app->session->setFlash('success','添加成功');
                 return $this->redirect(['admin/index']);
@@ -40,12 +44,16 @@ class AdminController extends Controller
     //修改管理员
     public function actionEdit($id){
         $model=Admin::findOne(['id'=>$id]);
+        if($model==null){
+            throw new NotFoundHttpException('用户不存在');
+        }
         $request=\Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
             if($model->validate()){
-                $model->password_hash=\Yii::$app->security->generatePasswordHash($model->password_hash);
+                /*$model->password_hash=\Yii::$app->security->generatePasswordHash($model->password_hash);
                 $model->updated_at=time();
+                $model->auth_key=\Yii::$app->security->generateRandomString();*/
                 $model->save();
                 \Yii::$app->session->setFlash('success','修改成功');
                 return $this->redirect(['admin/index']);
@@ -82,6 +90,12 @@ class AdminController extends Controller
             }
         }
         return $this->render('login',['model'=>$model]);
+    }
+
+    //退出登录
+    public function actionLogout(){
+        \Yii::$app->user->logout();
+        return $this->redirect(['admin/login']);
     }
 
     //验证码

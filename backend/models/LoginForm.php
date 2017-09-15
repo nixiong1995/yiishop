@@ -16,6 +16,7 @@ class LoginForm extends ActiveRecord
         return [
             ['code','captcha','captchaAction'=>'admin/captcha'],
             [['username','password'],'required'],
+            ['remember','string']
         ];
     }
 
@@ -25,21 +26,28 @@ class LoginForm extends ActiveRecord
             'username'=>'用户名',
             'password'=>'密码',
             'code'=>'验证码',
-            'remember'=>'',
+            'remember'=>'记住密码',
+
         ];
     }
 
     public function login(){
         //根据用户查询数据表
         $admin=Admin::findOne(['username'=>$this->username]);
-        $admin->last_login_time=time();
-        $admin->last_login_ip=\Yii::$app->request->userIP;
-        $admin->save(false);
         if($admin){
             //查询到该用户,验证密码
+
+            //var_dump(\Yii::$app->security->validatePassword($this->password,$admin->password_hash));exit;
             if(\Yii::$app->security->validatePassword($this->password,$admin->password_hash)){
                 //密码争取允许登录
-                return \Yii::$app->user->login($admin);
+                $admin->last_login_time=time();
+                $admin->last_login_ip=\Yii::$app->request->userIP;
+                $admin->save();
+                if($this->remember){
+                    return \Yii::$app->user->login($admin,7*24*3600);
+                }else{
+                    return \Yii::$app->user->login($admin);
+                }
             }else{
                 //密码错误
                 $this->addError('password','密码错误');
