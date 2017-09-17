@@ -1,9 +1,10 @@
 <?php
 namespace backend\models;
+use yii\base\Model;
 use yii\bootstrap\ActiveForm;
 use yii\db\ActiveRecord;
 
-class LoginForm extends ActiveRecord
+class LoginForm extends Model
 {
     public $code;
     public $username;
@@ -31,12 +32,12 @@ class LoginForm extends ActiveRecord
         ];
     }
 
+
     public function login(){
         //根据用户查询数据表
         $admin=Admin::findOne(['username'=>$this->username]);
         if($admin){
             //查询到该用户,验证密码
-
             //var_dump(\Yii::$app->security->validatePassword($this->password,$admin->password_hash));exit;
             if(\Yii::$app->security->validatePassword($this->password,$admin->password_hash)){
                 //密码争取允许登录

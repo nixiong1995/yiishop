@@ -21,6 +21,7 @@ return [
         'user' => [
             'identityClass' => \backend\models\Admin::className(),
             'enableAutoLogin' => true,
+            'loginUrl'=>['admin/login'],
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [

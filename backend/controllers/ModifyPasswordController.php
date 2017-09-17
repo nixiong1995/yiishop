@@ -15,28 +15,14 @@ class ModifyPasswordController extends Controller
                //模型加载数据
                $model->load($request->post());
                if($model->validate()){
-                   //判断两次修改的密码是否输入一致
-                   if($model->new_password===$model->repeat_new_password){
-                       //根据用户登录的信息的id,查询出密码,与用户输入的旧密码进行对比
-                       $admin=Admin::findOne(['id'=>\Yii::$app->user->id]);
-                       //对比旧密码
-                       $relust=\Yii::$app->security->validatePassword($model->old_password,$admin->password_hash);
-                       if($relust){
                            //用户输入的旧密码和数据库中的密码对比成功
-                           $admin->password_hash=\Yii::$app->security->generatePasswordHash($model->new_password);
+                           $admin=\Yii::$app->user->identity;
+                           $admin->password=$model->new_password;
                            $admin->save();
                            \Yii::$app->session->setFlash('success','修改密码成功');
-                           return $this->redirect(['admin/index']);
-                       }else{
-                           //用户输入的旧密码和数据库中的密码对比失败
-                           $model->addError('old_password','旧密码错误');
+                           return $this->redirect(['goods/index']);
                        }
-                   }else{
-                       //新密码和旧密码不一致
-                       $model->addError('repeat_new_password','两次密码不一样');
-                   }
                }
-            }
            return $this->render('index',['model'=>$model]);
         }else{
            //没有登录,跳转到登录页面.展示提示信息
