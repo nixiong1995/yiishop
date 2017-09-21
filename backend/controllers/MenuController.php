@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\Menu;
 use yii\web\Controller;
 
@@ -24,6 +25,17 @@ class MenuController extends Controller
             }
         }
         return $this->render('add',['model'=>$model]);
+    }
+
+    //验证访问权限
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha','error'],
+            ]
+        ];
     }
 
 }

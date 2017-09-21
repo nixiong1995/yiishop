@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\Goods;
 use backend\models\GoodsGallery;
 use backend\models\GoodsIntro;
@@ -13,5 +14,15 @@ class GoodsDetailsController extends Controller
         $models3=GoodsGallery::find()->where(['goods_id'=>$id])->all();//商品图片表模型
         return $this->render('index',['model1'=>$model1,'model2'=>$model2,'models3'=>$models3]);
 
+    }
+    //验证访问权限
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha','error'],
+            ]
+        ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\Brand;
 use yii\data\Pagination;
 use yii\web\Controller;
@@ -152,6 +153,17 @@ class BrandController extends Controller
            return 'fail';
        }
 
+    }
+
+    //验证访问权限
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha','error','s-upload','upload'],
+            ]
+        ];
     }
 
 

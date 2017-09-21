@@ -40,10 +40,9 @@ $this->registerJs(new \yii\web\JsExpression(
                   if(data=='success'){
                       alert('删除成功');
                       tr.hide('slow');
-                  }else {
+                  }else{
                       alert('删除失败');
                   }
-                
               })
           }
         })

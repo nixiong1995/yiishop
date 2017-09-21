@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\PermissionForm;
 use yii\web\Controller;
 
@@ -84,6 +85,17 @@ class RbacController extends Controller
 
     public function actionData(){
         return $this->render('data');
+    }
+
+    //验证访问权限
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha','error','s-upload'],
+            ]
+        ];
     }
 
 }

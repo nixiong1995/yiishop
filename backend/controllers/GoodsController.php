@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\Brand;
 use backend\models\Goods;
 use backend\models\GoodsDayCount;
@@ -182,6 +183,17 @@ class GoodsController extends Controller
                 "imageUrlPrefix"  => "http://www.baidu.com",//图片访问路径前缀
                 "imagePathFormat" => "/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}" ,//上传保存路径
                 "imageRoot" => \Yii::getAlias("@webroot"),
+            ]
+        ];
+    }
+
+    //验证访问权限
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha','error','s-upload','upload'],
             ]
         ];
     }

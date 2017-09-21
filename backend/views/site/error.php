@@ -23,5 +23,19 @@ $this->title = $name;
     <p>
         Please contact us if you think this is a server error. Thank you.
     </p>
-
+    <button class="btn btn-default">返回</button>
 </div>
+<?php
+/**
+ * @var $this \yii\web\View
+ * */
+$this->registerJs(new \yii\web\JsExpression(
+        <<<JS
+        $('.btn-default').on('click',function() {
+            history.back();
+          
+        })
+
+JS
+
+));

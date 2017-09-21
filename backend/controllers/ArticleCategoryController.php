@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use app\models\ArticleCategory;
+use backend\filters\RbacFilter;
 use yii\data\Pagination;
 
 
@@ -95,6 +96,16 @@ class ArticleCategoryController extends \yii\web\Controller
                 'minLength'=>4,
                 'maxLength'=>4,
             ],
+        ];
+    }
+    //验证访问权限
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha','error'],
+            ]
         ];
     }
 

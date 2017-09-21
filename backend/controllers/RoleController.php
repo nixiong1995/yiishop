@@ -1,5 +1,6 @@
 <?php
 namespace backend\controllers;
+use backend\filters\RbacFilter;
 use backend\models\RoleForm;
 use yii\web\Controller;
 
@@ -95,8 +96,17 @@ class RoleController extends Controller
         }else{
             return 'fail';
         }
+    }
 
-
+    //验证访问权限
+    public function behaviors()
+    {
+        return [
+            'rbac'=>[
+                'class'=>RbacFilter::className(),
+                'except'=>['login','logout','captcha','error'],
+            ]
+        ];
     }
 
 }
