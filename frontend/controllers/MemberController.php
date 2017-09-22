@@ -64,9 +64,11 @@ var_dump(\Yii::$app->user->id);*/
                         }else{
                             //echo '登录成功';exit;
                            \Yii::$app->user->login($user);
+                           Member::synchroniza();
                            //\Yii::$app->session->setFlash('success','登录成功');
                         }
-                        return $this->redirect(['locations/address']);
+
+                        return $this->redirect(['shop/index']);
                     }else{
                         //密码错误
                         throw new NotFoundHttpException('密码错误');

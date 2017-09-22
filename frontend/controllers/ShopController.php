@@ -7,6 +7,7 @@ use backend\models\GoodsIntro;
 use yii\data\Pagination;
 use yii\web\Controller;
 
+
 class ShopController extends Controller
 {
     //商城首页
@@ -46,5 +47,6 @@ class ShopController extends Controller
         $info=GoodsIntro::findOne(['goods_id'=>$id]);
        return $this->renderPartial('detailed',['good'=>$good,'imgs'=>$imgs,'info'=>$info]);
     }
+
 
 }

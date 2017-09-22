@@ -75,6 +75,39 @@ class Member extends ActiveRecord implements IdentityInterface
 
     }*/
 
+            //登录成功同步cookies中数据到数据表
+            public static function synchroniza(){//将cookie中的购物车移动到数据表
+                //取出购物车数据
+                $cookies=\Yii::$app->request->cookies;
+                $value=$cookies->getValue('carts');
+                if($value){
+                    $carts=unserialize($value);
+                    //var_dump($carts);exit;
+                    //遍历cookie中的数据,判断数据表中是否有该数据
+                    foreach ($carts as $goods_id=>$amount){
+                        //var_dump($goods_id);exit;
+                        $carts=Cart::findOne(['goods_id'=>$goods_id]);
+                        //var_dump($cart->amount);exit;
+                        if($carts){
+                            //数据表中有该商品
+                            $cart_amount=$carts->amount;
+                            $carts->amount=$cart_amount+$amount;
+                            $carts->save();
+                        }else{
+                            //数据表中没有该商品
+                            $model=new Cart();
+                            $model->goods_id=$goods_id;
+                            $model->amount=$amount;
+                            $model->member_id=\Yii::$app->user->id;
+                            $model->save();
+                        }
+                    }
+                    //清除cookie中的cart数据
+                    $cookies = \Yii::$app->response->cookies;
+                    $cookies->remove('carts');
+                }
+            }
+
     /**
      * Finds an identity by the given ID.
      * @param string|int $id the ID to be looked for
