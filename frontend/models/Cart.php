@@ -1,5 +1,6 @@
 <?php
 namespace frontend\models;
+use backend\models\Goods;
 use yii\db\ActiveRecord;
 
 class Cart extends ActiveRecord{
@@ -12,4 +13,8 @@ class Cart extends ActiveRecord{
         ];
     }
 
+    //获取商品名字
+    public function getGoods(){
+        return $this->hasOne(Goods::className(),['id'=>'goods_id']);
+    }
 }

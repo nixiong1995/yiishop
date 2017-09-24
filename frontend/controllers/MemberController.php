@@ -84,6 +84,12 @@ var_dump(\Yii::$app->user->id);*/
         return $this->renderPartial('login');
     }
 
+    //注销
+    public function actionLoginout(){
+        \Yii::$app->user->logout();
+        return $this->redirect(['shop/index']);
+    }
+
     //验证用户名唯一性
     public function actionValidateUser($username){
         $relust=Member::findOne(['username'=>$username]);

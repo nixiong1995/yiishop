@@ -169,7 +169,7 @@
        $.get("<?=\yii\helpers\Url::to(['member/validate-tel'])?>?tel=" + tel,function (data) {
            if(data){
                $.get("<?=\yii\helpers\Url::to(['member/sms'])?>?tel=" + tel,function (data) {
-                   console.debug(data);
+                   //console.debug(data);
                })
 
 

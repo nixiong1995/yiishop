@@ -32,9 +32,10 @@ class ShopController extends Controller
             $ids=$caregory->children()->select('id')->andWhere(['depth'=>2])->column();
             $query->andWhere(['in','goods_category_id',$ids]);
         }
-        $pager=new Pagination();
-        $pager->defaultPageSize=10;
-        $pager->totalCount=$query->all();
+        $pager=new Pagination([
+            'totalCount'=>$query->count(),
+            'defaultPageSize'=>10,
+        ]);
         $models=$query->limit($pager->limit)->offset($pager->offset)->all();
 
         return $this->renderPartial('list',['pager'=>$pager,'models'=>$models]);

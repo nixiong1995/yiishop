@@ -66,7 +66,7 @@ class GoodsController extends Controller
 
         }
         //查询品牌分类数据表,展示到添加下拉框中
-        $brand=Brand::find()->select(['id','name'])->all();
+        $brand=Brand::find()->select(['id','name'])->where(['status'=>1])->all();
         $brandCategory=[];
         foreach ($brand as $value){
             $brandCategory[$value->id]=$value->name;
@@ -94,7 +94,7 @@ class GoodsController extends Controller
 
         }
         //查询品牌分类数据表,展示到添加下拉框中
-        $brand=Brand::find()->select(['id','name'])->all();
+        $brand=Brand::find()->select(['id','name'])->where(['status'=>1])->all();
         $brandCategory=[];
         foreach ($brand as $value){
             $brandCategory[$value->id]=$value->name;
